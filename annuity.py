@@ -4,7 +4,6 @@ import pandas as pd
 
 # Import Plotly for interactive plotting
 import plotly.express as px
-
 # Import ECDF from statsmodels
 from statsmodels.distributions.empirical_distribution import ECDF
 
@@ -62,20 +61,6 @@ st.write(f"**Minimum:** ${min_full:,.0f}")
 st.write("### Understanding the ECDF Chart")
 st.markdown("""
 The **Empirical Cumulative Distribution Function (ECDF)** chart shows the proportion (or percentage) of data points that are less than or equal to a certain value.
-
-In simple terms, the ECDF chart helps you understand how your data is distributed. It allows you to see:
-
-- **At what value a certain percentage of the data lies below.**
-- **What percentage of data falls below a particular value.**
-
-For example, if you look at a point on the ECDF chart where the cumulative probability is **0.5** (or **50%**), the corresponding value on the x-axis tells you that **50% of the data points have a mean value less than or equal to that amount**.
-
-This can help you answer questions like:
-
-- *What is the value below which a certain percentage of outcomes fall?*
-- *What is the likelihood that the mean value is less than a specific amount?*
-
-By interpreting the ECDF chart, you can gain insights into the distribution of the mean values from your data, even without a statistical background.
 """)
 
 # Plot the ECDF of the row means (full data) using Plotly
@@ -89,6 +74,40 @@ fig_full = px.ecdf(
     labels={"Mean of Full Data": "Mean Value ($)"},
 )
 st.plotly_chart(fig_full)
+
+# **Dynamic explanation for the ECDF chart (Full Data)**
+min_value_full = row_means_full["Mean of Full Data"].min()
+max_value_full = row_means_full["Mean of Full Data"].max()
+median_value_full = row_means_full["Mean of Full Data"].median()
+
+st.write("### Explaining the ECDF Chart of Row Means (Full Data)")
+
+# Explanation for the ECDF Chart (Full Data)
+st.markdown(f"""
+Let's explain this ECDF chart of Row Means (Full Data) using dollars.
+
+### What This Chart Shows:
+This chart gives a big picture of how much money different groups typically have, represented by the **average (mean) dollar amounts**.
+
+### Reading the Chart:
+- The **x-axis** shows dollar amounts ranging from ${min_value_full:,.0f} to ${max_value_full:,.0f}.
+- The **y-axis** represents the proportion or percentage of groups we've counted so far.
+
+### Understanding the Line:
+- The line starts at the bottom left because no groups have been counted yet.
+- As we move right, the line goes up, indicating we're counting more groups.
+- By the time we reach the maximum value of ${max_value_full:,.0f}, we've counted almost all the groups (close to 100%).
+
+### What We Can Learn:
+- About half of the groups have average amounts below **${median_value_full:,.0f}**, as the line crosses the 50% mark at this value.
+- Few groups have average amounts below **${min_value_full:,.0f}** or above **${max_value_full:,.0f}**.
+
+### Example:
+If you're interested in what percentage of groups have average amounts of $7,000 or less:
+- Find $7,000 on the bottom of the chart.
+- Look up to where the line intersects.
+- The line at this point shows the cumulative proportion of groups whose average value is $7,000 or less.
+""")
 
 # **Updated Code for Last N Values Starts Here**
 
@@ -119,16 +138,6 @@ st.write(f"**Minimum:** ${min_last:,.0f}")
 
 # **Add explanation for the ECDF chart (Last Values)**
 st.write(f"### Understanding the ECDF Chart for Last {number_of_last_columns} Values")
-st.markdown(f"""
-This ECDF chart represents the distribution of the mean values calculated from the **last {number_of_last_columns} values** of each row.
-
-It helps you understand:
-
-- **How the most recent data points are distributed.**
-- **What percentage of recent data points fall below a certain value.**
-
-By examining this chart, you can gain insights into recent trends or patterns in your data, which can be valuable for making predictions or informed decisions.
-""")
 
 # Plot the ECDF of the row means (last values) using Plotly
 st.write(
@@ -141,3 +150,37 @@ fig_last = px.ecdf(
     labels={row_means_last.columns[0]: "Mean Value ($)"},
 )
 st.plotly_chart(fig_last)
+
+# **Dynamic explanation for the ECDF chart (Last N Values)**
+min_value_last = row_means_last.iloc[:, 0].min()
+max_value_last = row_means_last.iloc[:, 0].max()
+median_value_last = row_means_last.iloc[:, 0].median()
+
+st.write(f"### Explaining the ECDF Chart of Row Means (Last {number_of_last_columns} Values)")
+
+# Explanation for the ECDF Chart (Last Values)
+st.markdown(f"""
+This ECDF chart represents the distribution of the **mean values** calculated from the last {number_of_last_columns} values of each row.
+
+### What This Chart Shows:
+This chart helps us understand recent trends in data, showing the distribution of recent average dollar amounts.
+
+### Reading the Chart:
+- The **x-axis** shows dollar amounts ranging from **${min_value_last:,.0f}** to **${max_value_last:,.0f}**.
+- The **y-axis** shows the percentage of rows we've counted so far.
+
+### Understanding the Line:
+- The line starts at the bottom left because no rows have been counted yet.
+- As we move to the right, the line goes up, indicating we're counting more rows.
+- By the time we reach **${max_value_last:,.0f}**, we've counted almost all the rows (close to 100%).
+
+### What We Can Learn:
+- About half of the rows have average amounts below **${median_value_last:,.0f}**, as the line crosses the 50% mark here.
+- Very few rows have average amounts below **${min_value_last:,.0f}** or above **${max_value_last:,.0f}**.
+
+### Example:
+If you're interested in knowing what percentage of rows have average amounts of $7,000 or less:
+- Find $7,000 on the x-axis.
+- Look up to where the line intersects.
+- The line at that point shows the cumulative proportion of rows whose average value is $7,000 or less.
+""")last)
