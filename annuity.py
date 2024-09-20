@@ -129,7 +129,7 @@ st.write(f"Approximately **{percentage_below_last:.0f}%** of scenarios have a re
 st.write(f"### What This Means for You in Recent Years")
 
 st.markdown(f"""
-Looking at the most recent **{number_of_last_columns} years**:
+Looking at the lastt **{nmber_of_last_columns} years**:
 
 - There's about a **{percentage_below_last:.0f}%** chance that your average amount was **${selected_value_last:,.0f}** or less.
 """)
