@@ -1,4 +1,3 @@
-
 # Import necessary libraries
 import streamlit as st
 import pandas as pd
@@ -134,4 +133,3 @@ Looking at the last **{number_of_last_columns} years**:
 
 - There's about a **{percentage_below_last:.0f}%** chance that your average amount was **${selected_value_last:,.0f}** or less.
 """)
-#$$
