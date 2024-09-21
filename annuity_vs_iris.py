@@ -134,3 +134,4 @@ Looking at the last **{nmber_of_last_columns} years**:
 
 - There's about a **{percentage_below_last:.0f}%** chance that your average amount was **${selected_value_last:,.0f}** or less.
 """)
+#$$
